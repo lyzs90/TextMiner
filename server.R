@@ -3,42 +3,83 @@
 library(tm)
 library(SnowballC)
 library(wordcloud)
+library(arules)
 
-processTxt <- function(text) {
+processTxt <- function(text, ngram) {
       docs <- Corpus(VectorSource(text))
       docs <- tm_map(docs, removePunctuation)
       docs <- tm_map(docs,content_transformer(tolower))
       docs <- tm_map(docs, removeWords, stopwords("english"))
       docs <- tm_map(docs, stripWhitespace)
-      docs <- tm_map(docs,stemDocument)
+      #docs <- tm_map(docs,stemDocument)
+      
+      # Option to do n-grams
+      if(ngram == "2L") {
+          
+          ngramTokenizer <- function(x) {
+              temp <- unlist(x)[[1]]
+              temp <- strsplit(temp, " ", fixed = TRUE)[[1L]]
+              vapply(ngrams(temp, 2L), paste, "", collapse = " ")
+          }
+          
+      } else if(ngram == "3L") {
+          
+          ngramTokenizer <- function(x) {
+              temp <- unlist(x)[[1]]
+              temp <- strsplit(temp, " ", fixed = TRUE)[[1L]]
+              vapply(ngrams(temp, 3L), paste, "", collapse = " ")
+          }
+          
+      } else {
+          
+          ngramTokenizer <- function(x) {
+              temp <- unlist(x)[[1]]
+              temp <- strsplit(temp, " ", fixed = TRUE)[[1L]]
+              vapply(ngrams(temp, 1L), paste, "", collapse = " ")
+          }
+          
+      }
+      
+      
+      
       # Create document-term matrix (DTM)and remove words 2 characters or shorter
-      dtmr <-DocumentTermMatrix(docs, control=list(wordLengths=c(2, 20)))
-      # Count Frequencies
-      sort(colSums(as.matrix(dtmr)), decreasing=T)
+      dtm <-DocumentTermMatrix(docs, control=list(wordLengths = c(2, 20),
+                                                   tokenize = ngramTokenizer))
+      
 }
 
 function(input, output, session) {
     
     # Define a reactive expression for the document term matrix
-    terms <- reactive({
+    dtm <- reactive({
+        
         # Change when the "submit" button is pressed
         input$submit
         isolate({
             withProgress({
                 setProgress(message = "Processing corpus...")
-                processTxt(input$text)
+                processTxt(input$text, input$ngram)
             })
         })
+        
     })
     
     # Plot Word Cloud
-    output$plot <- renderPlot({
+    output$cloud <- renderPlot({
         set.seed(42)
-        freq <- terms()
+        # Count Frequencies
+        freq <- sort(colSums(as.matrix(dtm())), decreasing=T)
         wordcloud(names(freq),
                   freq,
-                  min.freq=input$freq, 
-                  max.words=input$max,
-                  colors=brewer.pal(6,"Dark2"))  
+                  min.freq = input$freq, 
+                  max.words = input$max,
+                  colors = brewer.pal(6,"Dark2"))  
     })
+    
+    # List Association Rles
+    output$rules <- renderText({
+        freqTerms <- findFreqTerms(dtm(), lowfreq = input$freq)
+        
+    })
+    
 }

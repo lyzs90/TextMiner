@@ -1,4 +1,11 @@
-# WordCloudApp
+# TextMiner
 
-Adapted from Shiny's Word Cloud example: http://shiny.rstudio.com/gallery/word-cloud.html
-For the JHU Data Science Specialization - Developing Data Products Course Project
+Text Miner makes basic text mining painless.
+
+Features:
+- World Cloud
+- Support for min freq, max words, n-grams
+- Association Rule Mining (WIP) 
+
+Use this [link](https://lzys90.shinyapps.io/TextMiner/) to access the app.
+
