@@ -1,15 +1,22 @@
 #server.R
 
+options(shiny.maxRequestSize=30*1024^2,
+        shiny.reactlog=TRUE)
+
+library(readr)
 library(tm)
 library(SnowballC)
 library(wordcloud)
-library(arules)
 
-processTxt <- function(text, ngram) {
+# define utility functions
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
+processTxt <- function(text, ngram, stopwords) {
       docs <- Corpus(VectorSource(text))
       docs <- tm_map(docs, removePunctuation)
       docs <- tm_map(docs,content_transformer(tolower))
-      docs <- tm_map(docs, removeWords, stopwords("english"))
+      docs <- tm_map(docs, removeWords, stopwords)
       docs <- tm_map(docs, stripWhitespace)
       #docs <- tm_map(docs,stemDocument)
       
@@ -50,36 +57,91 @@ processTxt <- function(text, ngram) {
 
 function(input, output, session) {
     
-    # Define a reactive expression for the document term matrix
+    # Reactive dataset on file upload
+    data <- reactive({
+        
+        inFile <- input$file1
+        
+        if (is.null(inFile))
+            return(NULL)
+        
+        readr::read_file(inFile$datapath)
+        
+    })
+    
+    
+    # Reactive dtm when dataset is read
     dtm <- reactive({
         
-        # Change when the "submit" button is pressed
-        input$submit
+        # Only run when submit is clicked
+        if(input$submit == 0)
+            return()
+        
         isolate({
             withProgress({
                 setProgress(message = "Processing corpus...")
-                processTxt(input$text, input$ngram)
+                processTxt(data(), input$ngram, stopwords_r())
             })
         })
         
     })
     
-    # Plot Word Cloud
-    output$cloud <- renderPlot({
-        set.seed(42)
-        # Count Frequencies
-        freq <- sort(colSums(as.matrix(dtm())), decreasing=T)
-        wordcloud(names(freq),
-                  freq,
-                  min.freq = input$freq, 
-                  max.words = input$max,
-                  colors = brewer.pal(6,"Dark2"))  
+    # Define non-reactive stopword variable to be the counter
+    words <- stopwords("english")
+    
+    stopwords_r <- reactive({
+        
+        # Only run when submit is clicked
+        if(input$add == 0)
+            return()
+        
+        isolate({
+            
+            return(c(words, input$addword))
+  
+        })
+        
     })
     
-    # List Association Rles
-    output$rules <- renderText({
-        freqTerms <- findFreqTerms(dtm(), lowfreq = input$freq)
+#     output$debug <- renderText({
+#         stopwords_r()
+#     })
+    
+    output$stopwords <- renderText({
         
+        if(is.null(stopwords_r())) {
+            
+            return(paste(words, sep=" ", collapse=" "))
+            
+        } else {
+            
+           return(paste(stopwords_r(), sep=" ", collapse=" "))
+            
+        }
+    
+    })
+    
+    # Plot Word Cloud
+    output$cloud <- renderPlot({
+        
+        # Only run when submit is clicked
+        if(input$submit == 0)
+            return()
+        
+        isolate({
+            
+            # Count Frequencies
+            set.seed(42)
+            freq <- sort(colSums(as.matrix(dtm())), decreasing=T)
+            wordcloud(names(freq),
+                      freq,
+                      min.freq = input$freq, 
+                      max.words = input$max,
+                      colors = brewer.pal(6,"Dark2"))
+            
+        })
+        
+          
     })
     
 }
