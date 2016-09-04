@@ -4,8 +4,10 @@ Version: 0.1
 Title: Text Mining Suite
 Description: Text Miner makes basic text mining painless.
 Authors@R: c(
-    person("Shem", "lyzs90", email = "leongyzs@gmail.com", c("aut", "cre"))
+    person("shem", "lyzs90", email = "leongyzs@gmail.com", c("aut", "cre"))
 	)
+Author: shem lyzs90
+Maintainer: shem lyzs90 <leongyzs@gmail.com>
 URL: https://github.com/lyzs90/TextMiner
 BugReports: https://github.com/lyzs90/TextMiner/issues
 Depends:
