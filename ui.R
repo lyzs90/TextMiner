@@ -34,14 +34,14 @@ fluidPage(
                 column(4, actionButton("add", "Add", icon = icon("plus")))
             ),
             tags$style(type='text/css', "#add { width:100%; margin-top: 25px;}"),
-            helpText("Stopwords will be excluded from the model. Only works for a single
-                     word now :("),
+            helpText("Stopwords will be excluded from the model. You can add multiple words
+                     using a space delimiter. Note: You cannot remove basic stopwords."),
             hr(),
             sliderInput("freq",
                         label = "Minimum Frequency:",
                         min = 1,  max = 20, value = 2),
             helpText("Words with a frequency below the Minimum Frequency will not be plotted. 
-                     Note: if you input a Minimum Frequency that is too high, it will revert 
+                     Note: If you input a Minimum Frequency that is too high, it will revert 
                      to a value of 1."),
             hr(),
             sliderInput("max",
@@ -55,12 +55,13 @@ fluidPage(
         mainPanel(
             tabsetPanel(
                 #tabPanel("Debug", textOutput("debug")),
+                tabPanel("Word Cloud", plotOutput("cloud")),
                 tabPanel("Stopwords", 
                          h3(tags$span(style="color:rgb(0, 153, 204)", 
                                       textOutput("stopwords"))
                             )
-                         ),
-                tabPanel("Word Cloud", plotOutput("cloud"))
+                         )
+                
             )
         )
         

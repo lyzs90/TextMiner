@@ -25,7 +25,7 @@ processTxt <- function(text, ngram, stopwords) {
           
           ngramTokenizer <- function(x) {
               temp <- unlist(x)[[1]]
-              temp <- strsplit(temp, " ", fixed = TRUE)[[1L]]
+              temp <- strsplit(temp, " ", fixed = TRUE)[[1L]]  # L specifies integer type
               vapply(ngrams(temp, 2L), paste, "", collapse = " ")
           }
           
@@ -97,15 +97,30 @@ function(input, output, session) {
         
         isolate({
             
-            return(c(words, input$addword))
+            temp <- strsplit(input$addword, " ", fixed = TRUE)[[1L]]
+            return(c(words, temp))
+            
+            # DEPRECATED: to remove stopwords
+            temp <- strsplit(input$addword, " ", fixed = TRUE)[[1L]]
+            words[words %!in% temp]
   
         })
         
     })
     
-#     output$debug <- renderText({
-#         stopwords_r()
-#     })
+    
+    output$debug <- renderPrint({
+        
+        # Only run when submit is clicked
+        if(input$add == 0)
+            return()
+        
+        isolate({
+            
+            
+        })
+        
+    })
     
     output$stopwords <- renderText({
         
