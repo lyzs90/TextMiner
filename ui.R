@@ -7,9 +7,9 @@ fluidPage(
     
     sidebarLayout(
         sidebarPanel(
-            h5("This app will count the word/phrase frequencies of a text input in the box 
-               below and return a word cloud. Association rules will help uncover 
-               relationships between the words/phrases."),
+            h5("This app will count word/phrase frequencies and display a word cloud. 
+               Association rules will help uncover relationships between the words/phrases.
+               Currently, the app consider your text file as a single string."),
             hr(),
             fileInput('file1', 'Choose file to upload',
                       accept = c(
