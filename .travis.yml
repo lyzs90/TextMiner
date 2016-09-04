@@ -2,7 +2,7 @@ language: r
 sudo: required
 
 r_packages:
-	- covr
+  - covr
 	
 after_success:
-	- Rscript -e 'library(covr);coveralls()'
+  - Rscript -e 'library(covr);coveralls()'
