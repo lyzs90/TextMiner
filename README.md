@@ -1,6 +1,6 @@
 # [TextMiner](https://lzys90.shinyapps.io/TextMiner/)
 
-[![Build Status](https://travis-ci.org/lyzs90/TextMiner.svg)](https://travis-ci.org/lyzs90/TextMiner) [![Coverage Status](https://codecov.io/gh/lyzs90/TextMiner/branch/master/graph/badge.svg)](https://codecov.io/gh/lyzs90/TextMiner)
+[![Build Status](https://travis-ci.org/lyzs90/TextMiner.svg)](https://travis-ci.org/lyzs90/TextMiner) [![Coverage Status](https://coveralls.io/repos/github/lyzs90/TextMiner/badge.svg?branch=master)](https://coveralls.io/github/lyzs90/TextMiner?branch=master)
 
 
 Text Miner makes basic text mining painless.
