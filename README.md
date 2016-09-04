@@ -2,16 +2,32 @@
 
 Text Miner makes basic text mining painless.
 
-## Quick start
+## Dependencies
+
+- shiny
+- readr
+- tm
+- SnowballC
+- worldcloud
+
+## How to Use
 
 Upload a text file containing the text to be analyzed. TextMiner will treat it as a single document.
 
-## Features
+## Local Deployment
 
-- Plot a world cloud
-- Options for N-grams, min freq, max words, and stopwords
+Clone a copy of this repo, install the dependencies, then run the following code:
+  
+```R
+shiny::runApp()
+```
+
+For showcase mode:
+
+```R
+shiny::runApp(display.mode="showcase")
+```
 
 ## License
 
 Code released under [the MIT license](https://github.com/lyzs90/TextMiner/blob/master/LICENSE.txt).
-
