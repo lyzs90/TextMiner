@@ -1,5 +1,5 @@
 Package: TextMiner
-Type: Package
+Type: Shiny
 Version: 0.1
 Title: Text Mining Suite
 Description: Text Miner makes basic text mining painless.
