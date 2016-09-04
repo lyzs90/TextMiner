@@ -1,0 +1,22 @@
+Package: TextMiner
+Type: Package
+Version: 0.1
+Title: Text Mining Suite
+Description: Text Miner makes basic text mining painless.
+Authors@R: c(
+    person("Shem", "lyzs90", email = "leongyzs@gmail.com", c("aut", "cre"))
+	)
+URL: https://github.com/lyzs90/TextMiner
+BugReports: https://github.com/lyzs90/TextMiner/issues
+Depends:
+    R (>= 3.2.3)
+Imports:
+    shiny,
+	readr,
+	tm,
+	SnowballC,
+	wordcloud
+Suggests:
+    testthat,
+    covr
+License: MIT + file LICENSE
