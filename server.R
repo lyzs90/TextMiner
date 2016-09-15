@@ -20,7 +20,7 @@ function(input, output, session) {
         if (is.null(inFile))
             return(NULL)
         
-        read.csv(inFile, header = FALSE, sep = "|")
+        read.csv(inFile$datapath, header = FALSE, sep = "|")
         
     })
     

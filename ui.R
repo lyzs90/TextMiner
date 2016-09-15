@@ -1,26 +1,22 @@
 # ui.R
 
-fluidPage(
+fluidPage(theme = "paper.css",
     
     titlePanel(span(tags$img(src = "./hat-icon.png", width = "50px", height = "50px"), 
                     "Text Miner")),
     
     sidebarLayout(
         sidebarPanel(
-            h5("This app will count word/phrase frequencies and display a word cloud. 
-               Association rules will help uncover relationships between the words/phrases.
-               Currently, the app consider your text file as a single string."),
+            h6("This app will count word/phrase frequencies and display a word cloud. 
+               Association rules will help uncover relationships between the words/phrases."),
             hr(),
-            fileInput('file1', 'Choose file to upload',
-                      accept = c(
-                          'text/csv',
-                          'text/comma-separated-values',
-                          'text/tab-separated-values',
-                          'text/plain',
-                          '.csv',
-                          '.tsv'
-                      )
-            ),
+            tags$div(HTML(
+                '<label class="btn btn-default btn-file shiny-bound-input">
+                Browse <input id="file1" name="file1" type="file" style="display: none;">
+                </label>'
+            )),
+            helpText("Upload a single column .txt file containing your free text."),
+            hr(),
             selectInput("ngram", 
                         label = "N-gram:",
                         width= "200px",
@@ -57,7 +53,7 @@ fluidPage(
                 #tabPanel("Debug", textOutput("debug")),
                 tabPanel("Word Cloud", plotOutput("cloud")),
                 tabPanel("Stopwords", 
-                         h3(tags$span(style="color:rgb(0, 153, 204)", 
+                         h4(tags$span(style="color:rgb(0, 153, 204)", 
                                       textOutput("stopwords"))
                             )
                          )
