@@ -8,14 +8,15 @@ Text Miner makes basic text mining painless.
 ## Dependencies
 
 - shiny
-- readr
 - tm
 - SnowballC
 - worldcloud
+- ggplot2
+- ggdendro
 
 ## How to Use
 
-Upload a text file containing the text to be analyzed. TextMiner will treat it as a single document.
+Upload a single column text file containing the text to be analyzed. TextMiner will treat each row in the file as a separate document.
 
 ## Local Deployment
 

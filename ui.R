@@ -2,13 +2,17 @@
 
 fluidPage(theme = "paper.css",
     
+    tags$head(
+        tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
+    ),      
+          
     titlePanel(span(tags$img(src = "./hat-icon.png", width = "50px", height = "50px"), 
                     "Text Miner")),
     
     sidebarLayout(
         sidebarPanel(
             h6("This app will count word/phrase frequencies and display a word cloud. 
-               Association rules will help uncover relationships between the words/phrases."),
+               Clustering can help uncover relationships between the words/phrases."),
             hr(),
             tags$div(HTML(
                 '<label class="btn btn-default btn-file shiny-bound-input">
@@ -30,7 +34,7 @@ fluidPage(theme = "paper.css",
                 column(4, actionButton("add", "Add", icon = icon("plus")))
             ),
             tags$style(type='text/css', "#add { width:100%; margin-top: 25px;}"),
-            helpText("Stopwords will be excluded from the model. You can add multiple words
+            helpText("Stopwords will be excluded. You can add multiple words
                      using a space delimiter. Note: You cannot remove basic stopwords."),
             hr(),
             sliderInput("freq",
@@ -51,12 +55,16 @@ fluidPage(theme = "paper.css",
         mainPanel(
             tabsetPanel(
                 #tabPanel("Debug", textOutput("debug")),
-                tabPanel("Word Cloud", plotOutput("cloud")),
                 tabPanel("Stopwords", 
                          h4(tags$span(style="color:rgb(0, 153, 204)", 
                                       textOutput("stopwords"))
-                            )
                          )
+                ),
+                tabPanel("Word Cloud", plotOutput("cloud")),
+                tabPanel("Clustering", plotOutput("cluster", 
+                                                  height = "700px",
+                                                  width = "700px"))
+                
                 
             )
         )
