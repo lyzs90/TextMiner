@@ -1,9 +1,8 @@
-#server.R
+# server.R
 
 options(shiny.maxRequestSize=30*1024^2,
         shiny.reactlog=TRUE)
 
-library(readr)
 library(tm)
 library(SnowballC)
 library(wordcloud)
@@ -13,7 +12,7 @@ words <- stopwords("english")
 
 function(input, output, session) {
     
-    # Reactive dataset on file upload TODO: convert to multiple documents
+    # Reactive dataset on file upload
     data <- reactive({
         
         inFile <- input$file1
@@ -21,7 +20,7 @@ function(input, output, session) {
         if (is.null(inFile))
             return(NULL)
         
-        readr::read_file(inFile$datapath)
+        read.csv(inFile, header = FALSE, sep = "|")
         
     })
     
@@ -52,15 +51,10 @@ function(input, output, session) {
             
             temp <- strsplit(input$addword, " ", fixed = TRUE)[[1L]]
             return(c(words, temp))
-            
-            # DEPRECATED: to remove stopwords
-            temp <- strsplit(input$addword, " ", fixed = TRUE)[[1L]]
-            words[words %!in% temp]
   
         })
         
     })
-    
     
 #     output$debug <- renderPrint({
 #         

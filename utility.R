@@ -3,9 +3,9 @@
 '%!in%' <- function(x,y)!('%in%'(x,y))
 
 processTxt <- function(text, ngram, stopwords) {
-    docs <- Corpus(VectorSource(text))
+    docs <- Corpus(DataframeSource(text))
     docs <- tm_map(docs, removePunctuation)
-    docs <- tm_map(docs,content_transformer(tolower))
+    docs <- tm_map(docs, content_transformer(tolower))
     docs <- tm_map(docs, removeWords, stopwords)
     docs <- tm_map(docs, stripWhitespace)
     #docs <- tm_map(docs,stemDocument)
