@@ -11,6 +11,8 @@ Text Miner makes basic text mining painless.
 - tm
 - SnowballC
 - worldcloud
+- ggplot2
+- ggdendro
 
 ## How to Use
 

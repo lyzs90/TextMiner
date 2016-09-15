@@ -6,6 +6,8 @@ options(shiny.maxRequestSize=30*1024^2,
 library(tm)
 library(SnowballC)
 library(wordcloud)
+library(ggplot2)
+library(ggdendro)
 
 source("utility.R", local = FALSE)
 words <- stopwords("english")
@@ -105,6 +107,29 @@ function(input, output, session) {
         })
         
           
+    })
+    
+    # Hierarchical Agglomerative Clustering
+    output$cluster <- renderPlot({
+        
+        # Only run when submit is clicked
+        if(input$submit == 0)
+            return()
+        
+        isolate({
+        
+        # remove sparse terms to simplify cluster plot
+        dtm2 <- removeSparseTerms(dtm(), sparse = 0.85)
+        
+        # convert into distance matrix
+        df <- t(as.data.frame(as.matrix(dtm2)))
+        df.scale <- scale(df)
+        d <- dist(df.scale, method = "euclidean")
+        model <- hclust(d, method="ave")
+        ggdendrogram(model, rotate = T)
+        
+        })
+    
     })
     
 }
