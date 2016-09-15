@@ -2,6 +2,10 @@
 
 fluidPage(theme = "paper.css",
     
+    tags$head(
+        tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
+    ),      
+          
     titlePanel(span(tags$img(src = "./hat-icon.png", width = "50px", height = "50px"), 
                     "Text Miner")),
     
